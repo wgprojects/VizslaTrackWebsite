@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html>
+   <head>
+	  
+	  <meta charset="utf-8">
+	  <title>Vizsla Track</title>
+	  
+	  
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <meta name="description" content="A racing track for Blaze">
+	  <meta name="author" content="William Gibson">
+	  
+	  <!-- Le styles -->
+	  <link href="./assets/css/bootstrap.css" rel="stylesheet">
+	  <style>
+		 body {
+		 /*
+		 padding-top: 60px; /* 60px to make the container go all the way to the botto
+		 */
+		 }
+	  </style>
+	  <link href="./assets/css/bootstrap-responsive.css" rel="stylesheet">
+	  
+	  <!-- Fav and touch icons -->
+	  <link rel="shortcut icon" href="./assets/ico/favicon.ico">
+	  <link rel="apple-touch-icon-precomposed" href="./assets/ico/apple-touch-icon-57-precomposed.png">   
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+   </head>                                                           
+   <body>                                                            
+	  <div class="container">
+		 <h2>Vizsla Race Track<small> Exercise for Blaze</small></h2>                                      
+		 <div class="alert alert-error" id="noconnection" style="display:none">
+			<h4>No connection</h4>
+			Ensure the unit is powered on
+			<br>
+			<button class="btn btn-danger" id="retryConnection" onClick="forceRetry()">Retry now</button>
+		 </div>
+		 
+		 <div class="alert alert-error" id="nostatus">
+			<h4>No status received</h4>
+			Waiting for a status message...
+		 </div>
+		 
+		 <div id="status">unknown</div>                                    
+		 
+		 <ul class="nav nav-tabs" id="navcontrol" style="display:none">
+			<li><a href="#touch" data-toggle="tab">Touch</a></li>
+			<li><a href="#buttons" data-toggle="tab">Manual</a></li>
+			<li><a href="#advanced" data-toggle="tab">Advanced</a></li>
+			<li><a href="#settings" data-toggle="tab">Settings</a></li>
+		 </ul>
+		 
+		 <div class="tab-content" id="tabcontrol" style="display:none"> 
+			<div class="tab-pane" id="buttons">                                                       
+			   
+			   <div class="container">                                           
+				  <!-- <p>Push the buttons to get started.<br> -->                  
+				  
+				  <div id="div1">initialized</div>                                  
+				  
+				  <div class="row">
+					 <div class="span12">                                                                                                                                                                                                                                                                        
+						<button class="btn btn-block btn-danger btn-large" id="buttonStop">Stop
+						   <i class="icon-stop"></i>
+						</button>                             
+					 </div>
+				  </div>
+				  <div class="row">
+					 <br>
+				  </div>
+				  <div class="row">
+					 <div class="span3">
+						<button class="btn btn-block" id="buttonJogFast">Jog Fast
+						</button>                      
+					 </div>
+					 <div class="span3">
+						<button class="btn btn-block" id="buttonJogSlow">Jog Slow
+						</button>     
+					 </div>
+					 <div class="span6">
+						<button class="btn btn-block btn-success" id="buttonRun">Run
+						   <i class="icon-play"></i>
+						</button>                               
+					 </div>
+				  </div>
+				  <div class="row">
+					 <br>
+				  </div>
+				  <div class="row">
+					 <div class="span6">
+						<button class="btn btn-block" id="buttonSlower">Slow down
+						   <i class="icon-minus"></i>
+						</button>                               
+					 </div>
+					 <div class="span6">
+						<button class="btn btn-block" id="buttonFaster">Speed up
+						   <i class="icon-plus"></i>
+						</button>                               
+					 </div>
+				  </div>
+				  
+			   </div> <!-- /container --> 
+			</div>
+			
+			<div class="tab-pane active" id="touch">                                                       
+			   <div class="container">
+				  <div>
+					 <div id="dogimage" style="text-align: center;">
+						<img src="./assets/img/vizsla.png" class="img" align="left">
+					 </div>
+					 <div id="lureimage" style="text-align: center;">
+						<img src="./assets/img/lure.png" class="img">
+						</div
+					 </div>
+					 <div class="row">
+						<div class="span12">
+						   <div id="boostinfo" class="visible-desktop"> no info </div>
+						</div>
+					 </div>
+				  </div>
+			   </div>  
+			</div>  
+			
+			<div class="tab-pane" id="advanced">
+			   <div class="span6">
+				  <table id="perf" class="table table-striped table-bordered">
+					 <caption>Performance data</caption>
+					 <tbody>
+						<tr>
+						   <td>Total distance (km)</td>
+						   <td id="totaldist">???km</td>
+						</tr>
+					 </tbody>
+				  </table>
+			   </div>
+			   
+			   <div class="span6">
+				  <table id="tech" class="table table-striped table-bordered">
+					 <caption>Technical data</caption>
+					 <thread>
+						<tr>
+						   <th>Item</th>
+						   <th>Data</th>
+						</tr>
+					 </thread>
+					 <tbody>
+						<tr>
+						   <td>Motor Current (A)</td>
+						   <td id="motorcurrent">??A</td>
+						</tr>
+						<tr>
+						   <td>Motor Voltage (V)</td>
+						   <td id="motorvoltage">??V</td>
+						</tr>
+						<tr>
+						   <td>DC Bus Voltage (V)</td>
+						   <td id="busvoltage">??V</td>
+						</tr>
+						<tr>
+						   <td>Input method</td>
+						   <td id="inputdevice">Unknown</td>
+						</tr>
+						<tr>
+						   <td>Error code</td>
+						   <td id="errorcode">None</td>
+						</tr>
+					 </tbody>
+					 
+				  </table>
+			   </div>
+			   
+			   
+			</div>
+			
+			<div class="tab-pane" id="settings">
+			   <div class="row">
+				  <div id="settings">No settings yet...</div>
+			   </div>
+			</div>
+		 </div>
+		 
+		 
+	  </div> <!-- main container -->
+	  
+	  
+	  
+	  
+	  <!-- Le javascript                           
+	  ================================================== -->                              
+	  <!-- Placed at the end of the document so the pages load faster -->
+	  <script src="./assets/js/jquery.js"></script> 
+	  <script src="./assets/js/bootstrap.min.js"></script>
+	  <script src="./assets/js/hammer.js"></script> 
+	  <script src="./assets/js/jquery.hammer.js"></script> 
+	  
+	  <script>
+		 function forceRetry()
+		 {
+			$.ajax({
+			   type: "GET",
+			   url: "forceRetry.php",
+			   
+			});
+		 }
+		 function updateStatus()
+		 {
+			
+			$.ajax({
+			   type: "GET",
+			   url: "getStatus.php",
+			   cache: false,
+			   error: function(request, status2)
+			   {
+				  $("#status").html("error in ajax - " + status2);
+				  
+				  $('#buttonStop').attr("disabled", false);
+			   },	
+			   success: function(data, textStatus, jqXHR)
+			   {
+				  $("#nostatus").hide();
+				  
+				  if(data[0] == 0)
+				  {
+					 $("#noconnection").hide();
+					 $("#tabcontrol").show();
+					 $("#navcontrol").show();
+				  }
+				  else
+				  {
+					 $("#noconnection").show("slow");
+					 $("#tabcontrol").hide();
+					 $("#navcontrol").hide();
+				  }
+				  
+				  $("#status").html("Speed: " + data[10].toFixed(2)+"km/h");
+				  $('#buttonRun').attr("disabled", data[3]!=0);
+				  $('#buttonJogFast').attr("disabled", data[3]!=0 && data[3]!=2);
+				  $('#buttonJogSlow').attr("disabled", data[3]!=0 && data[3]!=1);
+				  $('#buttonSlower').attr("disabled", data[3]!=3);
+				  $('#buttonFaster').attr("disabled", data[3]!=3);
+				  $('#buttonStop').attr("disabled", false);
+				  
+				  $('td#totaldist').html(data[11].toFixed(3));
+				  $('td#motorcurrent').html(data[6].toFixed(1));
+				  $('td#motorvoltage').html(data[7].toFixed(1));
+				  $('td#busvoltage').html(data[8].toFixed(1));
+				  
+				  if(data[4]==1)
+				  $('td#inputdevice').html("Auto");
+				  else
+				  $('td#inputdevice').html("Front Panel");
+				  
+				  $('td#errorcode').html(data[2]);
+			   }
+			});
+			
+		 }
+		 setInterval("updateStatus()", 500); 
+		 
+		 
+		 
+		 function holdFast(e)
+		 {
+			$("#div1").html("wait");                                          
+			$.ajax({                                                          
+			   type: "POST",                                                                            
+			   url: "command.php?speed=2",                                                                 
+			   }).done(function( msg ) {                                                                
+			   $("#div1").html("Fast" + msg);        
+			});
+		 }
+		 
+		 function holdSlow(e)
+		 {
+			$("#div1").html("wait");                                          
+			$.ajax({                                                          
+			   type: "POST",                                                                            
+			   url: "command.php?speed=1",                                                                 
+			   }).done(function( msg ) {                                                                
+			   $("#div1").html("Slow" + msg);        
+			});
+		 }
+		 
+		 
+		 function stop(e)
+		 {
+			$("#div1").html("wait");                                          
+			$.ajax({                                                          
+			   type: "POST",                                                                            
+			   url: "command.php?speed=0",                                                                 
+			   }).done(function( msg ) {                                                                
+			   $("#div1").html("Stopped" + msg);        
+			});
+		 }
+		 
+		 function start(e)                                       
+		 {                                                     
+			$("#div1").html("wait");                         
+			$.ajax({                                         
+			   type: "POST",                                                         
+			   url: "command.php?speed=3",                         
+			   }).done(function( msg ) {                            
+			   $("#div1").html("Running" + msg);                                      
+			});                                                                      
+		 }
+		 
+		 
+		 
+		 function boostUp(e)                                       
+		 {                                                      
+			$("#div1").html("wait");                           
+			$.ajax({                                               
+			   type: "POST",                                                            
+			   url: "command.php?boost=10",                                                 
+			   }).done(function( msg ) {                                 
+			   $("#div1").html("Boost up" + msg);                                        
+			});                                                                        
+		 }
+		 
+		 function boostDown(e)                                       
+		 {                                                      
+			$("#div1").html("wait");                           
+			$.ajax({                                               
+			   type: "POST",                                                            
+			   url: "command.php?boost=-10",                                                 
+			   }).done(function( msg ) {                                 
+			   $("#div1").html("Boost down" + msg);                                        
+			});                                                                        
+		 }
+		 
+		 function boostOff(e)                                       
+		 {                                                      
+			currentBoost = 0;
+			   
+			$("#lureimage img").css("margin-left", 0); // e.distanceX;
+			
+			$("#div1").html("wait");                           
+			$.ajax({                                               
+			   type: "POST",                                                            
+			   url: "command.php?boost=0",                                                 
+			   }).done(function( msg ) {                                 
+			   $("#div1").html("Boost off" + msg);                                        
+			});                                                                        
+		 }
+		 
+		 
+		 var currentBoost = 0;
+		 var posts = 0;
+		 
+		 function dragBoost(e)
+		 {
+			e.preventdefault = true;
+			var maxScale = 200;
+			var maxBoosts = 20;
+			
+			var numBoosts = Math.floor((e.distanceX * maxBoosts) / maxScale);
+			
+			var post = false;
+			
+			if(e.direction =='left')
+			{
+			   //Slower
+			   //numBoosts *= -1;
+			   post = true;	
+			}
+			else if (e.direction == 'right')
+			{
+			   post = true;
+			}
+			
+			numBoosts = Math.min(numBoosts, maxBoosts);
+			numBoosts = Math.max(numBoosts, -1 * maxBoosts);
+			
+			if(post && numBoosts != currentBoost)
+			{
+			   currentBoost = numBoosts;
+			   posts++;
+
+			   $("#lureimage img").css("margin-left", e.distanceX); // e.distanceX;
+
+			   $("#boostinfo").html("Number of posts: " + posts + "<br>Direction of drag: " + e.direction + "<br>Current numBooosts: " + numBoosts);
+			   
+			    
+			   $("#div1").html("wait");                           
+			   $.ajax({                                               
+				  type: "POST",                                                            
+				  url: "command.php?boost=" + numBoosts,                                                 
+				  }).done(function( msg ) {                                 
+				  $("#div1").html("Boost off" + msg);                                        
+			   });                                                                        
+			}
+			
+		 } 
+		 
+		 $(document).ready(function(){
+			
+			
+			
+			$("#buttonJogFast").hammer({ }).bind("hold", holdFast).bind("release", stop);
+			$("#buttonJogSlow").hammer({ }).bind("hold", holdSlow).bind("release", stop);
+			$("#buttonRun").hammer({ }).bind("tap", start);
+			$("#buttonStop").hammer({ }).bind("tap", stop);
+			
+			$("#buttonFaster").hammer({ }).bind("hold", boostUp).bind("release", boostOff);
+			$("#buttonSlower").hammer({ }).bind("hold", boostDown).bind("release", boostOff);
+			
+			$("#dogimage").hammer({ }).bind("tap", stop);
+			
+			$("#lureimage img").bind("dragstart", function() { return false; });
+			$("#lureimage img").hammer(
+			{
+			   drag_min_distance: 5, 
+			   drag_vertical: false,
+			   drag_horizontal: true,
+			   swipe: false,
+			   prevent_default: true
+			}
+			).bind("drag", dragBoost).bind("dragend", boostOff);
+			
+		 });
+	  </script>
+	  
+	  
+   </body>
+   
+   
+</html>
+
+
