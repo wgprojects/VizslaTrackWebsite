@@ -215,24 +215,7 @@
 		 
 	  </div> <!-- main container -->
 	  
-	  
-	  
-	  
-	  	<!--
-	  	$("[data-slider]")
-	  	.each(function () {
-	  	  var input = $ (this);
-	  	  $("<span>")
-	  	    .addClass("output")
-	  	    .insertAfter($(this));
-	  	})
-	  	.bind("slider:ready slider:changed", function (event, data) {
-	  	  $(this)
-	  	    .nextAll(".output:first")
-	  	    .html(data.value.toFixed(2));
-	  	})
-	  	.bind("slider:changed", updateSettings);
-	  	-->	
+	  	
 	  
 	  <!-- Le javascript                           
 	  ================================================== -->                              
@@ -245,6 +228,15 @@
 	  
 	  <script>
 		 
+	  	$("[data-slider]")
+	  	.each(function () {
+	  	  var input = $ (this);
+	  	  $("<span>")
+	  	    .addClass("output")
+	  	    .insertAfter($(this));
+	  	})
+	  	.bind("slider:changed", updateSettings);
+	  	
 		 
 		 
 		 function forceRetry()
@@ -305,16 +297,13 @@
 				  
 				  $('td#errorcode').html(data[2]);
 				  
-				  <!-- $("#defaultSpeed").simpleSlider("setValue", data[15]/12.7); -->
-			  	  
-			  	  <!--
 			  	  $("#defaultSpeed")
 	  	    		  .nextAll(".output:first")
-	  	    		  .html((data[15]/12.7).toFixed(2);
+	  	    		  .html((data[15]/12.7).toFixed(2));
 
 			  	  $("#boostSpeed")
 	  	    		  .nextAll(".output:first")
-	  	    		  .html((data[12]/12.7*(20/2)).toFixed(2);-->
+	  	    		  .html((data[12]/12.7*(20/2)).toFixed(2));
 	  	    		   <!--There are 20 boosts; set boost speed assuming half of them is the typical range-->
 	  	    		  
 			   }
@@ -491,9 +480,6 @@
 			}
 			).bind("drag", dragBoost).bind("dragend", boostOff);
 			
-			<!-- $("#boostSpeed-slider").bind("slider:changed", upateSettings);
-			$("#defaultSpeed-slider").bind("slider:changed", upateSettings);
-			-->
 			
 		 });
 	  </script>
