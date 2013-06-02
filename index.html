@@ -194,7 +194,7 @@
 			     </div>
 			     <div class="row">
 			       <div class="span8">
-				  <input id="defaultSpeed" type="text" data-slider="true" data-slider-range="1,50" data-slider-step="1"> 
+				  <input id="defaultSpeed" type="text" data-slider="true" data-slider-range="20,600" data-slider-step="1"> 
 			       </div>
 			     </div>
 			     <div class="row">
@@ -205,7 +205,7 @@
 			     </div>
 			     <div class="row">
 			       <div class="span8">
-				  <input id="boostSpeed" type="text" data-slider="true" data-slider-range="1, 20" data-slider-step="0.1"> 
+				  <input id="boostSpeed" type="text" data-slider="true" data-slider-range="1, 20" data-slider-step="1"> 
 			       </div>
 			     </div>
 			   </div>
@@ -404,7 +404,13 @@
 		 
 		 function updateSettings(event, data)
 		 {
-			$("#divsettings").html("settings are " + $("#defaultSpeed").val() + " and " + $("#boostSpeed").val());
+		 	$("#divsettings").html("wait");
+			$.ajax({                                                          
+			   type: "POST",                                                                            
+			   url: "settings.php?default=" + $("#defaultSpeed").val() + "&boost=" + $("#boostSpeed").val(),                                                                 
+			   }).done(function( msg ) {                                                                
+			   $("#divsettings").html("settings are " + $("#defaultSpeed").val() + " and " + $("#boostSpeed").val() + " msg:" + msg);
+			});
 			<!--$("#divsettings").html("settings are " + data.value.toFixed(2));-->
 			<!-- + "  " + boostSettings.value.toFixed(2));-->
 			<!--$("#divsettings").html("changed");-->
