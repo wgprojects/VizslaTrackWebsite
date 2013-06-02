@@ -28,6 +28,7 @@
 	  
 	  
 	  
+	  <link href="./assets/css/simple-slider.css" rel="stylesheet" type="text/css"/> 
 	  
 	  
 	  
@@ -117,7 +118,6 @@
 					 </div>
 					 <div id="lureimage" style="text-align: center;">
 						<img src="./assets/img/lure.png" class="img">
-						</div
 					 </div>
 					 <div class="row">
 						<div class="span12">
@@ -144,12 +144,12 @@
 			   <div class="span6">
 				  <table id="tech" class="table table-striped table-bordered">
 					 <caption>Technical data</caption>
-					 <thread>
+					 <thead>
 						<tr>
 						   <th>Item</th>
 						   <th>Data</th>
 						</tr>
-					 </thread>
+					 </thead>
 					 <tbody>
 						<tr>
 						   <td>Motor Current (A)</td>
@@ -180,8 +180,34 @@
 			</div>
 			
 			<div class="tab-pane" id="settings">
-			   <div class="row">
-				  <div id="settings">No settings yet...</div>
+			   <div class="container">
+			     <div class="row">
+			     <div class="span8">
+			     <div id="divsettings">here</div>
+			     </div>
+			     </div>
+			     <div class="row">
+			       <div class="span8">
+			  	  <h3>Default speed</h3>
+			  	  Preferably choose one a little faster than Blaze
+			       </div>
+			     </div>
+			     <div class="row">
+			       <div class="span8">
+				  <input id="defaultSpeed" type="text" data-slider="true" data-slider-range="1,50" data-slider-step="1"> 
+			       </div>
+			     </div>
+			     <div class="row">
+			       <div class="span8">
+			  	  <h3>Boost speed</h3>
+			  	  Changes how much sliding alters the default speed. 
+			       </div>
+			     </div>
+			     <div class="row">
+			       <div class="span8">
+				  <input id="boostSpeed" type="text" data-slider="true" data-slider-range="1, 20" data-slider-step="0.1"> 
+			       </div>
+			     </div>
 			   </div>
 			</div>
 		 </div>
@@ -192,6 +218,22 @@
 	  
 	  
 	  
+	  	<!--
+	  	$("[data-slider]")
+	  	.each(function () {
+	  	  var input = $ (this);
+	  	  $("<span>")
+	  	    .addClass("output")
+	  	    .insertAfter($(this));
+	  	})
+	  	.bind("slider:ready slider:changed", function (event, data) {
+	  	  $(this)
+	  	    .nextAll(".output:first")
+	  	    .html(data.value.toFixed(2));
+	  	})
+	  	.bind("slider:changed", updateSettings);
+	  	-->	
+	  
 	  <!-- Le javascript                           
 	  ================================================== -->                              
 	  <!-- Placed at the end of the document so the pages load faster -->
@@ -199,8 +241,12 @@
 	  <script src="./assets/js/bootstrap.min.js"></script>
 	  <script src="./assets/js/hammer.js"></script> 
 	  <script src="./assets/js/jquery.hammer.js"></script> 
+	  <script src="./assets/js/simple-slider.js"></script> 
 	  
 	  <script>
+		 
+		 
+		 
 		 function forceRetry()
 		 {
 			$.ajax({
@@ -258,6 +304,19 @@
 				  $('td#inputdevice').html("Front Panel");
 				  
 				  $('td#errorcode').html(data[2]);
+				  
+				  <!-- $("#defaultSpeed").simpleSlider("setValue", data[15]/12.7); -->
+			  	  
+			  	  <!--
+			  	  $("#defaultSpeed")
+	  	    		  .nextAll(".output:first")
+	  	    		  .html((data[15]/12.7).toFixed(2);
+
+			  	  $("#boostSpeed")
+	  	    		  .nextAll(".output:first")
+	  	    		  .html((data[12]/12.7*(20/2)).toFixed(2);-->
+	  	    		   <!--There are 20 boosts; set boost speed assuming half of them is the typical range-->
+	  	    		  
 			   }
 			});
 			
@@ -354,6 +413,14 @@
 		 var currentBoost = 0;
 		 var posts = 0;
 		 
+		 function updateSettings(event, data)
+		 {
+			$("#divsettings").html("settings are " + $("#defaultSpeed").val() + " and " + $("#boostSpeed").val());
+			<!--$("#divsettings").html("settings are " + data.value.toFixed(2));-->
+			<!-- + "  " + boostSettings.value.toFixed(2));-->
+			<!--$("#divsettings").html("changed");-->
+		 }
+		 
 		 function dragBoost(e)
 		 {
 			e.preventdefault = true;
@@ -423,6 +490,10 @@
 			   prevent_default: true
 			}
 			).bind("drag", dragBoost).bind("dragend", boostOff);
+			
+			<!-- $("#boostSpeed-slider").bind("slider:changed", upateSettings);
+			$("#defaultSpeed-slider").bind("slider:changed", upateSettings);
+			-->
 			
 		 });
 	  </script>
