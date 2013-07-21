@@ -297,13 +297,17 @@
 				  
 				  $('td#errorcode').html(data[2]);
 				  
-			  	  $("#defaultSpeed")
+			  	  <!--$("#defaultSpeed")
 	  	    		  .nextAll(".output:first")
 	  	    		  .html((data[15]/12.7).toFixed(2));
 
 			  	  $("#boostSpeed")
 	  	    		  .nextAll(".output:first")
 	  	    		  .html((data[12]/12.7*(20/2)).toFixed(2));
+					  -->
+					
+					$("#defaultSpeed").setValue((data[15]/12.7).toFixed(2));
+					$("#boostSpeed").setValue((data[12]/12.7*(20/2)).toFixed(2));
 	  	    		   <!--There are 20 boosts; set boost speed assuming half of them is the typical range-->
 	  	    		  
 			   }
@@ -404,13 +408,16 @@
 		 
 		 function updateSettings(event, data)
 		 {
-		 	$("#divsettings").html("wait");
-			$.ajax({                                                          
-			   type: "POST",                                                                            
-			   url: "settings.php?default=" + $("#defaultSpeed").val() + "&boost=" + $("#boostSpeed").val(),                                                                 
-			   }).done(function( msg ) {                                                                
-			   $("#divsettings").html("settings are " + $("#defaultSpeed").val() + " and " + $("#boostSpeed").val() + " msg:" + msg);
-			});
+			if(data.trigger=="domDrag")
+			{
+				$("#divsettings").html("wait");
+				$.ajax({                                                          
+				   type: "POST",                                                                            
+				   url: "settings.php?default=" + $("#defaultSpeed").val() + "&boost=" + $("#boostSpeed").val(),                                                                 
+				   }).done(function( msg ) {                                                                
+				   $("#divsettings").html("settings are " + $("#defaultSpeed").val() + " and " + $("#boostSpeed").val() + " msg:" + msg);
+				});
+			}
 			<!--$("#divsettings").html("settings are " + data.value.toFixed(2));-->
 			<!-- + "  " + boostSettings.value.toFixed(2));-->
 			<!--$("#divsettings").html("changed");-->
