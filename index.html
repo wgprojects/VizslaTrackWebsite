@@ -262,6 +262,12 @@
 			   },	
 			   success: function(data, textStatus, jqXHR)
 			   {
+			          if(data.indexOf("Failed to open") != -1)
+			          {
+			            $("#status").html(data); 
+			          }
+			          else
+			          {
 				  $("#nostatus").hide();
 				  
 				  if(data[0] == 0)
@@ -277,7 +283,7 @@
 					 $("#navcontrol").hide();
 				  }
 				  
-				  $("#status").html("Speed: " + data[10].toFixed(2)+"km/h");
+				  $('#status').html("Speed: " + data[10].toFixed(2)+"km/h");
 				  $('#buttonRun').attr("disabled", data[3]!=0);
 				  $('#buttonJogFast').attr("disabled", data[3]!=0 && data[3]!=2);
 				  $('#buttonJogSlow').attr("disabled", data[3]!=0 && data[3]!=1);
@@ -297,19 +303,20 @@
 				  
 				  $('td#errorcode').html(data[2]);
 				  
-			  	  <!--$("#defaultSpeed")
-	  	    		  .nextAll(".output:first")
-	  	    		  .html((data[15]/12.7).toFixed(2));
+			  	  <!--$("#defaultSpeed") -->
+	  	    		  <!--.nextAll(".output:first") -->
+	  	    		  <!--.html((data[15]/12.7).toFixed(2)); -->
 
-			  	  $("#boostSpeed")
-	  	    		  .nextAll(".output:first")
-	  	    		  .html((data[12]/12.7*(20/2)).toFixed(2));
-					  -->
+			  	  <!--$("#boostSpeed") -->
+	  	    		  <!--.nextAll(".output:first") -->
+	  	    		  <!--.html((data[12]/12.7*(20/2)).toFixed(2)); -->
 					
-					$("#defaultSpeed").setValue((data[15]/12.7).toFixed(2));
-					$("#boostSpeed").setValue((data[12]/12.7*(20/2)).toFixed(2));
-	  	    		   <!--There are 20 boosts; set boost speed assuming half of them is the typical range-->
-	  	    		  
+
+				  $("#defaultSpeed").simpleSlider('setValue', (data[15]/12.7*(20/2)).toFixed(2));
+				  $("#boostSpeed").simpleSlider('setValue', (data[12]/12.7*(20/2)).toFixed(2));
+		    		   <!--There are 20 boosts; set boost speed assuming half of them is the typical range-->
+	  			}
+	  			    		  
 			   }
 			});
 			
