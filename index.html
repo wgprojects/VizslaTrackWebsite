@@ -6,8 +6,7 @@
 	  <meta charset="utf-8">
 	  <title>Vizsla Track</title>
 	  
-	  
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
 	  <meta name="description" content="A racing track for Blaze">
 	  <meta name="author" content="William Gibson">
 	  
@@ -432,21 +431,22 @@
 		 
 		 function dragBoost(e)
 		 {
-			e.preventdefault = true;
+		 	console.log(this, e.gesture.touches);
+			e.gesture.preventdefault = true;
 			var maxScale = 200;
 			var maxBoosts = 20;
 			
-			var numBoosts = Math.floor((e.distanceX * maxBoosts) / maxScale);
+			var numBoosts = Math.floor((e.gesture.deltaX * maxBoosts) / maxScale);
 			
 			var post = false;
 			
-			if(e.direction =='left')
+			if(e.gesture.direction =='left')
 			{
 			   //Slower
 			   //numBoosts *= -1;
 			   post = true;	
 			}
-			else if (e.direction == 'right')
+			else if (e.gesture.direction == 'right')
 			{
 			   post = true;
 			}
@@ -459,7 +459,7 @@
 			   currentBoost = numBoosts;
 			   posts++;
 
-			   $("#lureimage img").css("margin-left", e.distanceX); // e.distanceX;
+			   $("#lureimage img").css("margin-left", e.gesture.deltaX); // e.distanceX;
 
 			   $("#boostinfo").html("Number of posts: " + posts + "<br>Direction of drag: " + e.direction + "<br>Current numBooosts: " + numBoosts);
 			   
@@ -479,26 +479,30 @@
 			
 			
 			
-			$("#buttonJogFast").hammer({ }).bind("hold", holdFast).bind("release", stop);
-			$("#buttonJogSlow").hammer({ }).bind("hold", holdSlow).bind("release", stop);
-			$("#buttonRun").hammer({ }).bind("tap", start);
-			$("#buttonStop").hammer({ }).bind("tap", stop);
+			$("#buttonJogFast").hammer().on("hold", holdFast).on("release", stop);
+			$("#buttonJogSlow").hammer().on("hold", holdSlow).on("release", stop);
+			$("#buttonRun").hammer().on("tap", start);
+			$("#buttonStop").hammer().on("tap", stop);
 			
-			$("#buttonFaster").hammer({ }).bind("hold", boostUp).bind("release", boostOff);
-			$("#buttonSlower").hammer({ }).bind("hold", boostDown).bind("release", boostOff);
+			$("#buttonFaster").hammer({ }).on("hold", boostUp).on("release", boostOff);
+			$("#buttonSlower").hammer({ }).on("hold", boostDown).on("release", boostOff);
 			
-			$("#dogimage").hammer({ }).bind("tap", stop);
+			$("#dogimage").hammer({ }).on("tap", stop);
 			
-			$("#lureimage img").bind("dragstart", function() { return false; });
+			<!--$("#lureimage img").hammer().on("dragstart", function() { return false; }); -->
 			$("#lureimage img").hammer(
 			{
-			   drag_min_distance: 5, 
-			   drag_vertical: false,
-			   drag_horizontal: true,
+			   drag: true,
+			   transform: false,
 			   swipe: false,
-			   prevent_default: true
+			   drag_max_touches: 0,
+			   drag_min_distance: 5, 
+			   drag_block_vertical: true,
+			   drag_block_horizontal: true,
+			   swipe: false,
+			   show_touches: true
 			}
-			).bind("drag", dragBoost).bind("dragend", boostOff);
+			).on("drag", dragBoost).on("dragend", boostOff);
 			
 			
 		 });
